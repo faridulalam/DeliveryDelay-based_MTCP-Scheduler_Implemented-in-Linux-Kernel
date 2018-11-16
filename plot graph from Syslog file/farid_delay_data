@@ -1,0 +1,275 @@
+#!/bin/bash
+
+
+#rm cwnd_new_1
+#rm cwnd_new_2
+
+SF1=f3f01b80
+SF2=f5b2dd80
+
+SF3=f2eac780
+
+######## Delivery delay data MPTCP ##############
+
+#grep -rZ -E "tcp_cong" /home/lab/new-analysis/new-d-delay---1 > mptcp_fw_delay_1
+grep -rZ -E "fw_delay" /home/lab/ex-new-results/rtt/exp-2_ex_cap-10_10_del_10-10-20_20-40 > mptcp_fw_delay_cong
+
+#rm mptcp_fw_delay_1
+
+# for subflow 1
+
+grep -rZ -E "$SF1" mptcp_fw_delay_cong > fw_delay_sf1
+awk '{print $7, $12}' fw_delay_sf1 > fw_delay_sf1_new
+sed 's/]//' fw_delay_sf1_new > fw_delay_new_11_cong
+#sed 's/.//' fw_delay_new_111 > fw_delay_new_11
+head -n -5 fw_delay_new_11_cong > fw_delay_new_1
+rm fw_delay_sf1
+rm fw_delay_sf1_new
+#rm fw_delay_new_111
+rm fw_delay_new_1
+
+#for subflow 2
+
+grep -rZ -E "$SF2" mptcp_fw_delay_cong > fw_delay_sf2
+awk '{print $7, $12}' fw_delay_sf2 > fw_delay_sf2_new
+sed 's/]//' fw_delay_sf2_new > fw_delay_new_22_cong
+#sed 's/.//' fw_delay_new_222 > fw_delay_new_22
+head -n -5 fw_delay_new_22_cong > fw_delay_new_2
+rm fw_delay_sf2
+rm fw_delay_sf2_new
+#rm fw_delay_new_222
+rm fw_delay_new_2
+
+
+######## Delivery Delay Data TCP ##############
+
+
+#grep -rZ -E "tcp_cong" /home/lab/new-analysis/new-d-delay---1 > mptcp_fw_delay_1
+grep -rZ -E "fw_delay" /home/lab/ex-new-results-tcp/rtt-tcp/exp-2_cap-10,10_delay-10-10-20_20_40_tcp > tcp_fw_delay_cong
+
+#rm mptcp_fw_delay_1
+
+# for subflow 1
+
+grep -rZ -E "$SF3" tcp_fw_delay_cong > tcp_fw_delay_sf1
+awk '{print $7, $12}' tcp_fw_delay_sf1 > tcp_fw_delay_sf1_new
+sed 's/]//' tcp_fw_delay_sf1_new > tcp_fw_delay_new_11_cong
+#sed 's/.//' fw_delay_new_111 > fw_delay_new_11 
+head -n -5 tcp_fw_delay_new_11_cong > tcp_fw_delay_new_1
+rm tcp_fw_delay_sf1
+rm tcp_fw_delay_sf1_new 
+#rm fw_delay_new_111
+rm tcp_fw_delay_new_1
+
+
+############ RTT data MPTCP ###############
+
+grep -rZ -E "tcp_rtt_estm" /home/lab/ex-new-results/rtt/exp-2_ex_cap-10_10_del_10-10-20_20-40  > mptcp_rtt
+
+#for subflow 1
+
+grep -rZ -E "$SF1" mptcp_rtt > rtt_sf1
+awk '{print $7, $11}' rtt_sf1 > rtt_sf1_new
+sed 's/]//' rtt_sf1_new > rtt_new_11
+head -n -5 rtt_new_11 > rtt_new_1
+rm rtt_sf1
+rm rtt_sf1_new
+rm rtt_new_1
+
+#for subflow 2
+
+grep -rZ -E "$SF2" mptcp_rtt > rtt_sf2
+awk '{print $7, $11}' rtt_sf2 > rtt_sf2_new
+sed 's/]//' rtt_sf2_new > rtt_new_22
+head -n -5 rtt_new_22 > rtt_new_2
+rm rtt_sf2
+rm rtt_sf2_new
+rm rtt_new_2
+
+############ RTT data TCP ###############
+
+grep -rZ -E "tcp_rtt_estm" /home/lab/ex-new-results-tcp/rtt-tcp/exp-2_cap-10,10_delay-10-10-20_20_40_tcp > tcp_rtt
+
+#for subflow 1
+
+grep -rZ -E "$SF3" tcp_rtt > tcp_rtt_sf1
+awk '{print $7, $11}' tcp_rtt_sf1 > tcp_rtt_sf1_new
+sed 's/]//' tcp_rtt_sf1_new > tcp_rtt_new_11
+head -n -5 tcp_rtt_new_11 > tcp_rtt_new_1   
+rm tcp_rtt_sf1
+rm tcp_rtt_sf1_new
+rm tcp_rtt_new_1  
+
+############### cwnd data MPTCP ###############
+
+grep -rZ -E "tcp_out" /home/lab/ex-new-results/rtt/exp-2_ex_cap-10_10_del_10-10-20_20-40 > mptcp_cwnd_x1
+grep -rZ -E "cwnd" /home/lab/ex-new-analysis/mptcp_cwnd_x1 > mptcp_cwnd_out
+#grep -rZ -E "tcp_cong" /home/lab/new-results/delivery-delay/exp-1_cap-100_10_del_10-10_20-20 > mptcp_cwnd_x2
+#grep -rZ -E "cwnd" /home/lab/new-analysis/mptcp_cwnd_x2 > mptcp_cwnd_cong
+
+rm mptcp_cwnd_x1
+#rm mptcp_cwnd_x2
+
+########out########
+# for subflow 1
+
+grep -rZ -E "$SF1" mptcp_cwnd_out > cwnd_sf1
+awk '{print $7, $12}' cwnd_sf1 > cwnd_sf1_new
+sed 's/]//' cwnd_sf1_new > cwnd_new_11_out
+#sed 's/.//' cwnd_new_111_out > cwnd_new_11
+head -n -5 cwnd_new_11_out > cwnd_new_1
+rm cwnd_sf1_new
+rm cwnd_sf1
+#rm cwnd_new_111
+rm cwnd_new_1
+
+#for subflow 2
+
+grep -rZ -E "$SF2" mptcp_cwnd_out > cwnd_sf2
+awk '{print $7, $12}' cwnd_sf2 > cwnd_sf2_new
+sed 's/]//' cwnd_sf2_new > cwnd_new_22_out
+#sed 's/.//' cwnd_new_222_out > cwnd_new_22
+head -n -5 cwnd_new_22_out > cwnd_new_2
+rm cwnd_sf2_new 
+rm cwnd_sf2
+#rm cwnd_new_222
+rm cwnd_new_2
+
+########### cwnd TCP #########
+
+grep -rZ -E "cwnd" /home/lab/ex-new-results-tcp/rtt-tcp/exp-2_cap-10,10_delay-10-10-20_20_40_tcp > tcp_cwnd_out
+#grep -rZ -E "cwnd" /home/lab/ex-new-analysis/tcp_cwnd_x1 > tcp_cwnd_out
+
+rm tcp_cwnd_x1
+
+
+# for subflow 1
+
+grep -rZ -E "$SF3" tcp_cwnd_out > tcp_cwnd_sf1 
+awk '{print $7, $12}' tcp_cwnd_sf1 > tcp_cwnd_sf1_new
+sed 's/]//' tcp_cwnd_sf1_new > tcp_cwnd_new_11_out 
+#sed 's/.//' cwnd_new_111_out > cwnd_new_11
+head -n -5 tcp_cwnd_new_11_out > tcp_cwnd_new_1
+rm tcp_cwnd_sf1_new
+rm tcp_cwnd_sf1
+#rm cwnd_new_111
+rm tcp_cwnd_new_1
+
+
+
+############cong#########
+# for subflow 1
+
+#grep -rZ -E "$SF1" mptcp_cwnd_cong > cwnd_sf1
+#awk '{print $7, $12}' cwnd_sf1 > cwnd_sf1_new
+#sed 's/]//' cwnd_sf1_new > cwnd_new_11_cong
+#sed 's/.//' cwnd_new_111 > cwnd_new_11
+#head -n -5 cwnd_new_11_cong > cwnd_new_1
+#rm cwnd_sf1_new
+#rm cwnd_sf1
+#rm cwnd_new_111
+#rm cwnd_new_1   
+
+#for subflow 2
+
+#grep -rZ -E "$SF2" mptcp_cwnd_cong > cwnd_sf2
+#awk '{print $7, $12}' cwnd_sf2 > cwnd_sf2_new
+#sed 's/]//' cwnd_sf2_new > cwnd_new_22_cong
+#sed 's/.//' cwnd_new_222 > cwnd_new_22
+#head -n -5 cwnd_new_22_cong > cwnd_new_2
+#rm cwnd_sf2_new 
+#rm cwnd_sf2
+#rm cwnd_new_222
+#rm cwnd_new_2  
+
+############## in_flight data MPTCP ####################
+
+grep -rZ -E "in_flight" /home/lab/ex-new-results/rtt/exp-2_ex_cap-10_10_del_10-10-20_20-40 > mptcp_in_flight
+#grep -rZ -E "in_flight" /home/lab/new-analysis/mptcp_in_flight_1 > mptcp_in_flight
+#rm mptcp_in_flight_1 
+# for subflow 1
+
+grep -rZ -E "$SF1" mptcp_in_flight > in_flight_sf1
+awk '{print $7, $12}' in_flight_sf1 > in_flight_sf1_new
+sed 's/]//' in_flight_sf1_new > in_flight_new_11
+#sed 's/.//' in_flight_new_111 > in_flight_new_11
+head -n -5 in_flight_new_11 > in_flight_new_1
+rm in_flight_sf1_new
+rm in_flight_sf1
+#rm in_flight_new_111
+rm in_flight_new_1
+
+#for subflow 2
+
+grep -rZ -E "$SF2" mptcp_in_flight > in_flight_sf2
+awk '{print $7, $12}' in_flight_sf2 > in_flight_sf2_new
+sed 's/]//' in_flight_sf2_new > in_flight_new_22
+#sed 's/.//' in_flight_new_222 > in_flight_new_22
+head -n -5 in_flight_new_22 > in_flight_new_2
+rm in_flight_sf2_new
+rm in_flight_sf2
+#rm in_flight_new_222
+rm in_flight_new_2
+
+############## in_flight data TCP ####################
+
+grep -rZ -E "in_flight" /home/lab/ex-new-results-tcp/rtt-tcp/exp-2_cap-10,10_delay-10-10-20_20_40_tcp > tcp_in_flight
+#grep -rZ -E "in_flight" /home/lab/new-analysis/mptcp_in_flight_1 > mptcp_in_flight
+#rm tcp_in_flight_1
+# for subflow 1
+
+grep -rZ -E "$SF3" tcp_in_flight > tcp_in_flight_sf1
+awk '{print $7, $12}' tcp_in_flight_sf1 > tcp_in_flight_sf1_new
+sed 's/]//' tcp_in_flight_sf1_new > tcp_in_flight_new_11 
+#sed 's/.//' in_flight_new_111 > in_flight_new_11
+head -n -5 tcp_in_flight_new_11 > tcp_in_flight_new_1
+rm tcp_in_flight_sf1_new
+rm tcp_in_flight_sf1
+#rm in_flight_new_111
+rm tcp_in_flight_new_1
+
+
+############# ssthresh data MPTCP ################
+
+grep -rZ -E "tcp_cong" /home/lab/ex-new-results/rtt/exp-2_ex_cap-10_10_del_10-10-20_20-40  > mptcp_ssthresh_1
+grep -rZ -E "ssthresh" /home/lab/ex-new-analysis/mptcp_ssthresh_1 > mptcp_ssthresh
+rm mptcp_ssthresh_1
+# for subflow 1
+
+grep -rZ -E "$SF1" mptcp_ssthresh > ssthresh_sf1
+awk '{print $7, $12}' ssthresh_sf1 > ssthresh_sf1_new
+sed 's/]//' ssthresh_sf1_new > ssthresh_new_11
+#sed 's/.//' ssthresh_new_111 > ssthresh_new_11
+head -n -5 ssthresh_new_11 > ssthresh_new_1
+rm ssthresh_sf1_new
+rm ssthresh_sf1
+#rm ssthresh_new_111 
+rm ssthresh_new_1
+ 
+#for subflow 2
+grep -rZ -E "$SF2" mptcp_ssthresh > ssthresh_sf2
+awk '{print $7, $12}' ssthresh_sf2 > ssthresh_sf2_new
+sed 's/]//' ssthresh_sf2_new > ssthresh_new_22
+#sed 's/.//' ssthresh_new_222 > ssthresh_new_22
+head -n -5 ssthresh_new_22 > ssthresh_new_2
+rm ssthresh_sf2_new 
+rm ssthresh_sf2     
+#rm ssthresh_new_222 
+rm ssthresh_new_2   
+
+########### ssthresh TCP ############
+
+grep -rZ -E "tcp_cong" /home/lab/ex-new-results-tcp/rtt-tcp/exp-2_cap-10,10_delay-10-10-20_20_40_tcp > tcp_ssthresh_1
+grep -rZ -E "ssthresh" /home/lab/ex-new-analysis/tcp_ssthresh_1 > tcp_ssthresh
+rm tcp_ssthresh_1
+# for subflow 1
+
+grep -rZ -E "$SF3" tcp_ssthresh > tcp_ssthresh_sf1
+awk '{print $7, $12}' tcp_ssthresh_sf1 > tcp_ssthresh_sf1_new
+sed 's/]//' tcp_ssthresh_sf1_new > tcp_ssthresh_new_11
+#sed 's/.//' ssthresh_new_111 > ssthresh_new_11
+head -n -5 tcp_ssthresh_new_11 > tcp_ssthresh_new_1
+rm tcp_ssthresh_sf1_new
+rm tcp_ssthresh_sf1
+#rm ssthresh_new_111 
+rm tcp_ssthresh_new_1
