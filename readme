@@ -1,2 +1,34 @@
 Performance Evaluation of Minimum Delivery Delay Multipath TCP Scheduler Implemented in Linux Kernel
 -------------------------------------------------------------------------------------------------------
+
+The main motivation for implementing MPTCP is to improve robustness and performance
+or throughput of end-to-end connections. This allows to use multiple interfaces at the same
+time by using same existed TCP. It also allows to use maximum network resources along
+with increasing redundancy and resilience. In case of portable devices e.g. Smart phones,
+Tablets, Laptops etc can have smooth connection without loosing application connectivity
+because of MPTCP.
+
+The MPTCP splits the transport layer into two sublayers where the upper sublayer is
+responsible for gathering the information necessary to manage the connection and operates 
+end-to-end and the lower sublayer is responsible for managing the subflows. In order
+to manage the multiple TCP subflows below the MPTCP extension has to implement
+congestion control, packet scheduling, path management etc. The congestion control function
+is responsible for maintaining the congestion across the subflows and packet scheduler
+schedule packet to the subflows. This is why the MPTCP implementation need to be more
+efficient in case of Congestion Control and Scheduling data over subflow. MPTCP provides
+a number of subflows which can be used to send data but can not select the best subflow.
+That is the reason a good scheduler is necessary. Several scheduler already in theory and
+some are in practice (e.g. Shortest Round Trip Time scheduler in Linux). These schedulers
+are not efficient in all types of network scenarios. So, more schedulers need to implemented
+and analysed with different scenarios.
+
+
+Whats include here
+--------------------
+1. Linux Kernel source code where Delivery Delay Based scheduler is implemented
+2. Linux Kernel source code of print statement of different parameter 
+3. Compiled 3 different Linux Kernel
+4. Bash (.sh) scripts to filter data from linux system log (syslog) file
+5. Bash (.sh) scripts to draw plot from filtered data obtain linux system log (syslog) file
+6. Performance comparison slides among other existing MPTCP schedulers in Linux Kernel 
+e.g. Round Robin, Shortest Round Trip Time
